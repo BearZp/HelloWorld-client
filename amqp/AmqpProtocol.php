@@ -10,7 +10,10 @@ declare(strict_types=1);
 
 namespace Client\amqp;
 
+use Lib\protocol\FutureProtocolPacket;
 use Lib\protocol\ProtocolInterface;
+use Lib\protocol\ProtocolPacket;
+use Lib\protocol\ProtocolPacketInterface;
 use Lib\queues\rabbitMq\LazyRabbitMqConnectionProvider;
 use Lib\queues\rabbitMq\RabbitMqRpcClient;
 
@@ -54,7 +57,7 @@ class AmqpProtocol implements ProtocolInterface
     }
 
     /**
-     * @param ProtocolPacket $packet
+     * @param ProtocolPacketInterface $packet
      * @throws \Exception
      */
     public function pushPacket(ProtocolPacketInterface $packet): void
@@ -63,7 +66,7 @@ class AmqpProtocol implements ProtocolInterface
     }
 
     /**
-     * @param ProtocolPacket $packet
+     * @param ProtocolPacketInterface $packet
      * @return ProtocolPacketInterface
      * @throws \Exception
      */
@@ -121,20 +124,27 @@ class AmqpProtocol implements ProtocolInterface
         if (isset($answer['error'])) {
             throw new \Exception($answer['error']);
         }
-        return new ProtocolPacket('Answer', $answer['payload']);
+        return new ProtocolPacket(
+            'Answer',
+            $answer['payload'],
+            $answer['scope'],
+            $answer['requestId']
+        );
     }
 
     /**
      * Encodes data before send
-     * @param ProtocolPacket $packet
+     * @param ProtocolPacketInterface $packet
      * @return string
      */
-    public function encodePacket(ProtocolPacket $packet): string
+    public function encodePacket(ProtocolPacketInterface $packet): string
     {
         return gzcompress(json_encode([
             'action' => $packet->getAction(),
             'payload' => $packet->getPayload(),
-            'requestId' => REQUEST_ID,
+            'scope' => $packet->getScope(),
+            'requestId' => $packet->getRequestId(),
+            'responseChanel' => $packet->getResponseChanel()
         ]));
     }
 }
