@@ -126,7 +126,7 @@ class AmqpProtocol implements ProtocolInterface
         }
         return new ProtocolPacket(
             'Answer',
-            $answer['payload'],
+            $answer['data'],
             $answer['scope'],
             $answer['requestId']
         );
@@ -141,10 +141,9 @@ class AmqpProtocol implements ProtocolInterface
     {
         return gzcompress(json_encode([
             'action' => $packet->getAction(),
-            'payload' => $packet->getPayload(),
+            'data' => $packet->getData(),
             'scope' => $packet->getScope(),
-            'requestId' => $packet->getRequestId(),
-            'responseChanel' => $packet->getResponseChanel()
+            'requestId' => $packet->getRequestId()
         ]));
     }
 }
