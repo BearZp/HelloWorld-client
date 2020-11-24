@@ -13,7 +13,7 @@
   "keywords": [ "HelloWorld", "Client" ],
   "autoload": {
     "psr-4": {
-      "Client\\": "/"
+      "Client\\": "/src/"
     }
   },
   "autoload-dev": {
