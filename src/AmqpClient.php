@@ -25,6 +25,7 @@ class AmqpClient implements ProtocolInterface
         $this->protocol = new AmqpProtocol(
             $connection,
             $queueName,
+            true,
             $clientTimeout
         );
     }
