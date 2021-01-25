@@ -1,5 +1,5 @@
 {
-  "name": "helloworld/client",
+  "name": "asyncswarm/client",
   "description": "This is client for helloWorld services",
   "minimum-stability": "stable",
   "license": "proprietary",
@@ -10,7 +10,7 @@
       "email": "gulidov.vadim@gmail.com"
     }
   ],
-  "keywords": [ "HelloWorld", "Client" ],
+  "keywords": [ "asyncswarm"],
   "autoload": {
     "psr-4": {
       "Client\\": "/src/"
@@ -31,7 +31,8 @@
     "ext-json": "*",
     "ext-sockets": "*",
     "php-amqplib/php-amqplib": "^2.12",
-    "helloworld/lib": "*",
+    "asyncswarm/lib": "*",
+    "asyncswarm/curl": "*",
     "symfony/http-client": "^5.1"
   },
   "config": {
